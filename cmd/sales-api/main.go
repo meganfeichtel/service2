@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/ardanlabs/conf"
+	"github.com/meganfeichtel/service2/cmd/sales-api/internal/handlers"
 	"github.com/pkg/errors"
 )
 
@@ -97,9 +98,9 @@ func run() error {
 	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
 
 	api := http.Server{
-		Addr: cfg.Web.APIHost,
-		//Handler:      handlers.API(build, shutdown, log, db, authenticator),
-		ReadTimeout:  cfg.Web.ReadTimeout, //nothing can run forever
+		Addr:         cfg.Web.APIHost,
+		Handler:      handlers.API(build, shutdown, log), //, db, authenticator),
+		ReadTimeout:  cfg.Web.ReadTimeout,                //nothing can run forever
 		WriteTimeout: cfg.Web.WriteTimeout,
 	}
 
